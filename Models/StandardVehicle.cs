@@ -1,0 +1,28 @@
+using System;
+
+namespace SMDCheckSheet.Models
+{
+    public class StandardVehicle
+    {
+        public int Id { get; set; }
+        public int PrinterSpecGTAL { get; set; }
+        public int PrinterSpecTDQ { get; set; }
+        public int PrinterSpecTDKC { get; set; }
+        public int PrinterSpecDSL { get; set; }
+        public int PrinterRealGTAL { get; set; }
+        public int PrinterRealTDQ { get; set; }
+        public int PrinterRealTDKC { get; set; }
+        public int PrinterRealDSL { get; set; }
+        public bool PrinterQ1 { get; set; }
+        public bool SPIQ1 { get; set; }
+        public bool MountQ1 { get; set; }
+        public bool MountQ2 { get; set; }
+        public bool ReflowQ1 { get; set; }
+        public int ReFlowSettingRail { get; set; }
+        public int ReFlowRealRail { get;set; }
+        public bool AOIQ1 { get; set; }
+        public string AOICheck { get; set; }
+        public string NameOP { get; set; }
+        public string NameAOI { get; set; }
+    }
+}
