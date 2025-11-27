@@ -14,7 +14,7 @@ namespace SMDCheckSheet.Models
         public int StandardVehicleId { get; set; }
         public int TimeChangeModelId { get; set; }
         public int PQCCheckId { get; set; }
-        public string Status { get; set; } //
+        public string Status { get; set; } // {PQCDone, ENGDone, SupervisorDone, ManagerDone, ManagerKoreaDone}
 
 
         public CheckModel CheckModel { get; set; }

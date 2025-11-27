@@ -52,6 +52,27 @@ namespace SMDCheckSheet.Services
                 }).ToListAsync();
         }
 
+        public async Task<IEnumerable<ChangeModelReadDto>> GetByStatusAsync(string status)
+        {
+            var c = await _context.ChangeModels.FirstOrDefaultAsync(x => x.Status == status);
+            if (c == null) return null;
+
+            return new List<ChangeModelReadDto>
+            {
+                new ChangeModelReadDto
+                {
+                Id = c.Id,
+                CheckModelId = c.CheckModelId,
+                ProgramCheckId = c.ProgramCheckId,
+                StandardProductId = c.StandardProductId,
+                StandardVehicleId = c.StandardVehicleId,
+                TimeChangeModelId = c.TimeChangeModelId,
+                PQCCheckId = c.PQCCheckId,
+                Status = c.Status
+                }
+            };
+        }
+
         public async Task<ChangeModelReadDto?> GetByIdAsync(int id)
         {
             var c = await _context.ChangeModels.FindAsync(id);
@@ -95,6 +116,16 @@ namespace SMDCheckSheet.Services
             await _context.SaveChangesAsync();
 
             return await GetByIdAsync(c.Id) ?? throw new Exception("Create failed");
+        }
+
+        public async Task<ChangeModel?> UpdateStatusAsync( int id, string status)
+        {
+            var model = await _context.ChangeModels.FindAsync(id);
+            if (model == null)  return null;
+
+            model.Status = status;
+            await _context.SaveChangesAsync();
+            return model;
         }
 
         public async Task<bool> DeleteAsync(int id)

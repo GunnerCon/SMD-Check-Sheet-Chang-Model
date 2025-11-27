@@ -16,5 +16,10 @@ namespace SMDCheckSheet.Dtos
         public int Id { get; set; }
     }
 
+    public class ChangeModelStatusUpdateDto
+    {
+        public string Status { get; set; } = "Pending";
+    }
+
 
 }
