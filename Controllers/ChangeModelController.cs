@@ -26,6 +26,13 @@ namespace SMDCheckSheet.Controllers
             return Ok(result);
         }
 
+        [HttpGet("object/{id}")]
+        public async Task<ActionResult<ChangeModelReadObjectDto>> GetAllWithObject(int id)
+        {
+            var result = await _service.GetAllWithObjectAsync(id);
+            return Ok(result);
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<ChangeModelReadDto>> GetById(int id)
         {

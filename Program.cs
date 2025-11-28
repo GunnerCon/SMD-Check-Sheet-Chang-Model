@@ -28,11 +28,9 @@ builder.Services.AddSwaggerGen();           // Tích hợp Swagger
 var app = builder.Build();
 
 // Cấu hình middleware
-if (app.Environment.IsDevelopment())
-{
     app.UseSwagger();       // Tạo tài liệu Swagger
     app.UseSwaggerUI();     // Hiển thị giao diện Swagger
-}
+
 
 
 app.UseHttpsRedirection();  // Chuyển hướng HTTPS

@@ -44,12 +44,116 @@ namespace SMDCheckSheet.Services
                     Id = c.Id,
                     CheckModelId = c.CheckModelId,
                     ProgramCheckId = c.ProgramCheckId,
-                    StandardProductId = c.StandardProductId,
+                    StandardProductionId = c.StandardProductionId,
                     StandardVehicleId = c.StandardVehicleId,
                     TimeChangeModelId = c.TimeChangeModelId,
                     PQCCheckId = c.PQCCheckId,
                     Status = c.Status
                 }).ToListAsync();
+        }
+
+        public async Task<ChangeModelReadObjectDto?> GetAllWithObjectAsync(int id)
+        {
+            var c = await _context.ChangeModels
+                .Include(x => x.CheckModel)
+                .Include(x => x.ProgramCheck)
+                .Include(x => x.StandardProduction)
+                .Include(x => x.StandardVehicle)
+                .Include(x => x.TimeChangeModel)
+                .Include(x => x.PQCCheck)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (c == null) return null;
+
+            return new ChangeModelReadObjectDto
+            {
+                Id = c.Id,
+                Status = c.Status,
+                CheckModel = new CheckModel
+                {
+                    Id = c.CheckModel.Id,
+                    LineChange = c.CheckModel.LineChange,
+                    Model = c.CheckModel.Model,
+                    FCode = c.CheckModel.FCode,
+                    PCBver = c.CheckModel.PCBver,
+                    WorkOrder = c.CheckModel.WorkOrder, 
+                    UsedCNcard = c.CheckModel.UsedCNcard,
+                    Qty = c.CheckModel.Qty,
+                    FeederCheck = c.CheckModel.FeederCheck,
+                    OPAccept = c.CheckModel.OPAccept,
+                    JIG = c.CheckModel.JIG,
+                    CodePCB = c.CheckModel.CodePCB
+                },
+                ProgramCheck = new ProgramCheck
+                {
+                    Id = c.ProgramCheck.Id,
+                    PrinterProgram = c.ProgramCheck.PrinterProgram,
+                    SPIProgram = c.ProgramCheck.SPIProgram,
+                    MounterProgram = c.ProgramCheck.MounterProgram,
+                    PointMounter = c.ProgramCheck.PointMounter,
+                    MOAIProgram = c.ProgramCheck.MOAIProgram,
+                    SOAIProgram = c.ProgramCheck.SOAIProgram,
+                    PointSOAI = c.ProgramCheck.PointSOAI,
+                    ReflowProgram = c.ProgramCheck.ReflowProgram,
+                    ReflowSpeed = c.ProgramCheck.ReflowSpeed
+                },
+                PQCCheck = new PQCCheck
+                {
+                    Id = c.PQCCheck.Id,
+                    ICPlan = c.PQCCheck.ICPlan,
+                    ChecksumReal = c.PQCCheck.ChecksumReal,
+                    ChecksumConfirm = c.PQCCheck.ChecksumConfirm,
+                    Turner = c.PQCCheck.Turner,
+                    StartLCR = c.PQCCheck.StartLCR,
+                    EndLCR = c.PQCCheck.EndLCR,
+                    NameCheck = c.PQCCheck.NameCheck,
+                    ResultLCR = c.PQCCheck.ResultLCR
+                },
+                StandardProduction = new StandardProduction
+                {
+                    Id = c.StandardProduction.Id,
+                    NumMASK = c.StandardProduction.NumMASK,
+                    NumMES = c.StandardProduction.NumMES,
+                    NumScanPrinter = c.StandardProduction.NumScanPrinter,
+                    NumScanSignMES = c.StandardProduction.NumScanSignMES,
+                    MLS3Closed = c.StandardProduction.MLS3Closed,
+                    UseOnly = c.StandardProduction.UseOnly,
+                    LabelProgram = c.StandardProduction.LabelProgram
+                },
+                StandardVehicle = new StandardVehicle
+                {
+                    Id = c.StandardVehicle.Id,
+                    PrinterSpecGTAL = c.StandardVehicle.PrinterSpecGTAL,
+                    PrinterSpecTDQ = c.StandardVehicle.PrinterSpecTDQ,
+                    PrinterSpecTDKC = c.StandardVehicle.PrinterSpecTDKC,
+                    PrinterSpecDSL = c.StandardVehicle.PrinterSpecDSL,
+                    PrinterRealGTAL = c.StandardVehicle.PrinterRealGTAL,
+                    PrinterRealTDQ = c.StandardVehicle.PrinterRealTDQ,
+                    PrinterRealTDKC = c.StandardVehicle.PrinterRealTDKC,
+                    PrinterRealDSL = c.StandardVehicle.PrinterRealDSL,
+                    PrinterQ1 = c.StandardVehicle.PrinterQ1,
+                    SPIQ1 = c.StandardVehicle.SPIQ1,
+                    MountQ1 = c.StandardVehicle.MountQ1,
+                    MountQ2 = c.StandardVehicle.MountQ2,
+                    ReflowQ1 = c.StandardVehicle.ReflowQ1,
+                    ReFlowSettingRail = c.StandardVehicle.ReFlowSettingRail,
+                    ReFlowRealRail = c.StandardVehicle.ReFlowRealRail,
+                    AOIQ1 = c.StandardVehicle.AOIQ1,
+                    AOICheck = c.StandardVehicle.AOICheck,
+                    NameOP = c.StandardVehicle.NameOP,
+                    NameAOI = c.StandardVehicle.NameAOI
+                },
+                TimeChangeModel =  new TimeChangeModel
+                {
+                    Id = c.TimeChangeModel.Id,
+                    QC = c.TimeChangeModel. QC,
+                    Result = c.TimeChangeModel. Result,
+                    StartTime = c.TimeChangeModel. StartTime,
+                    EndTime = c.TimeChangeModel. EndTime,
+                    CountTime = c.TimeChangeModel. CountTime,
+                    History = c.TimeChangeModel. History
+                }
+            };
         }
 
         public async Task<IEnumerable<ChangeModelReadDto>> GetByStatusAsync(string status)
@@ -64,7 +168,7 @@ namespace SMDCheckSheet.Services
                 Id = c.Id,
                 CheckModelId = c.CheckModelId,
                 ProgramCheckId = c.ProgramCheckId,
-                StandardProductId = c.StandardProductId,
+                StandardProductionId = c.StandardProductionId,
                 StandardVehicleId = c.StandardVehicleId,
                 TimeChangeModelId = c.TimeChangeModelId,
                 PQCCheckId = c.PQCCheckId,
@@ -83,7 +187,7 @@ namespace SMDCheckSheet.Services
                 Id = c.Id,
                 CheckModelId = c.CheckModelId,
                 ProgramCheckId = c.ProgramCheckId,
-                StandardProductId = c.StandardProductId,
+                StandardProductionId = c.StandardProductionId,
                 StandardVehicleId = c.StandardVehicleId,
                 TimeChangeModelId = c.TimeChangeModelId,
                 PQCCheckId = c.PQCCheckId,
@@ -105,7 +209,7 @@ namespace SMDCheckSheet.Services
             {
                 CheckModelId = checkModel.Id,
                 ProgramCheckId = programCheck.Id,
-                StandardProductId = standardProduction.Id,
+                StandardProductionId = standardProduction.Id,
                 StandardVehicleId = standardVehicle.Id,
                 TimeChangeModelId = timeChangeModel.Id,
                 PQCCheckId = pqcCheck.Id,
