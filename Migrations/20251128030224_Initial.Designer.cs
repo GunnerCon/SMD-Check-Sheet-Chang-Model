@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SMDCheckSheet.Data;
 
@@ -11,13 +12,15 @@ using SMDCheckSheet.Data;
 namespace SMDCheckSheet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251128030224_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -67,7 +70,7 @@ namespace SMDCheckSheet.Migrations
                     b.Property<int>("ProgramCheckId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StandardProductionId")
+                    b.Property<int>("StandardProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("StandardVehicleId")
@@ -88,7 +91,7 @@ namespace SMDCheckSheet.Migrations
 
                     b.HasIndex("ProgramCheckId");
 
-                    b.HasIndex("StandardProductionId");
+                    b.HasIndex("StandardProductId");
 
                     b.HasIndex("StandardVehicleId");
 
@@ -394,9 +397,9 @@ namespace SMDCheckSheet.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SMDCheckSheet.Models.StandardProduction", "StandardProduction")
+                    b.HasOne("SMDCheckSheet.Models.StandardProduction", "StandardProduct")
                         .WithMany()
-                        .HasForeignKey("StandardProductionId")
+                        .HasForeignKey("StandardProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -418,7 +421,7 @@ namespace SMDCheckSheet.Migrations
 
                     b.Navigation("ProgramCheck");
 
-                    b.Navigation("StandardProduction");
+                    b.Navigation("StandardProduct");
 
                     b.Navigation("StandardVehicle");
 
