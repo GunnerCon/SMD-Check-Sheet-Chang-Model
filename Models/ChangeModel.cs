@@ -15,6 +15,8 @@ namespace SMDCheckSheet.Models
         public int TimeChangeModelId { get; set; }
         public int PQCCheckId { get; set; }
         public string Status { get; set; } // {PQCDone, ENGDone, SupervisorDone, ManagerDone, ManagerKoreaDone}
+        public string? ExcelFileUrl { get; set; } // Lưu trữ đường dẫn đến file Excel
+        public string? PdfFileUrl { get; set; } // Lưu trữ đường dẫn đến file PDF
 
 
         public CheckModel CheckModel { get; set; }

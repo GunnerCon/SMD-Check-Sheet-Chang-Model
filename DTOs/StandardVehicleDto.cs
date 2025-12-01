@@ -18,6 +18,10 @@ namespace SMDCheckSheet.Dtos
         public int? ReFlowRealRail { get; set; }
         public bool? AOIQ1 { get; set; }
         public string? AOICheck { get; set; }
+        public bool? OutputCheck { get; set; }
+        public string? ModelValue { get; set; }
+        public string? PitchValue { get; set; }
+        public string? PitchReal { get; set; }
         public string? NameOP { get; set; }
         public string? NameAOI { get; set; }
     }

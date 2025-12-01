@@ -48,6 +48,8 @@ namespace SMDCheckSheet.Services
                     StandardVehicleId = c.StandardVehicleId,
                     TimeChangeModelId = c.TimeChangeModelId,
                     PQCCheckId = c.PQCCheckId,
+                    ExcelFileUrl  = c.ExcelFileUrl,
+                    PdfFileUrl  = c.PdfFileUrl,
                     Status = c.Status
                 }).ToListAsync();
         }
@@ -69,6 +71,8 @@ namespace SMDCheckSheet.Services
             {
                 Id = c.Id,
                 Status = c.Status,
+                ExcelFileUrl = c.ExcelFileUrl,
+                PdfFileUrl = c.PdfFileUrl,
                 CheckModel = new CheckModel
                 {
                     Id = c.CheckModel.Id,
@@ -78,6 +82,8 @@ namespace SMDCheckSheet.Services
                     PCBver = c.CheckModel.PCBver,
                     WorkOrder = c.CheckModel.WorkOrder, 
                     UsedCNcard = c.CheckModel.UsedCNcard,
+                    RevS15 = c.CheckModel.RevS15,
+                    RevMounter = c.CheckModel.RevMounter,
                     Qty = c.CheckModel.Qty,
                     FeederCheck = c.CheckModel.FeederCheck,
                     OPAccept = c.CheckModel.OPAccept,
@@ -140,6 +146,10 @@ namespace SMDCheckSheet.Services
                     ReFlowRealRail = c.StandardVehicle.ReFlowRealRail,
                     AOIQ1 = c.StandardVehicle.AOIQ1,
                     AOICheck = c.StandardVehicle.AOICheck,
+                    OutputCheck = c.StandardVehicle.OutputCheck,
+                    ModelValue = c.StandardVehicle.ModelValue,
+                    PitchValue = c.StandardVehicle.PitchValue,
+                    PitchReal = c.StandardVehicle.PitchReal,
                     NameOP = c.StandardVehicle.NameOP,
                     NameAOI = c.StandardVehicle.NameAOI
                 },
@@ -172,6 +182,8 @@ namespace SMDCheckSheet.Services
                 StandardVehicleId = c.StandardVehicleId,
                 TimeChangeModelId = c.TimeChangeModelId,
                 PQCCheckId = c.PQCCheckId,
+                ExcelFileUrl  = c.ExcelFileUrl,
+                PdfFileUrl  = c.PdfFileUrl,
                 Status = c.Status
                 }
             };
@@ -191,6 +203,8 @@ namespace SMDCheckSheet.Services
                 StandardVehicleId = c.StandardVehicleId,
                 TimeChangeModelId = c.TimeChangeModelId,
                 PQCCheckId = c.PQCCheckId,
+                ExcelFileUrl  = c.ExcelFileUrl,
+                PdfFileUrl  = c.PdfFileUrl,
                 Status = c.Status
             };
         }
@@ -213,6 +227,8 @@ namespace SMDCheckSheet.Services
                 StandardVehicleId = standardVehicle.Id,
                 TimeChangeModelId = timeChangeModel.Id,
                 PQCCheckId = pqcCheck.Id,
+                ExcelFileUrl = dto.ExcelFileUrl ?? "",
+                PdfFileUrl = dto.PdfFileUrl ?? "",
                 Status = dto.Status
             };
 

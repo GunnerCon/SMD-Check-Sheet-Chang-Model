@@ -11,6 +11,8 @@ namespace SMDCheckSheet.Dtos
         public int TimeChangeModelId { get; set; }
         public int PQCCheckId { get; set; }
         public string Status { get; set; }
+        public string? ExcelFileUrl { get; set; }
+        public string? PdfFileUrl { get; set; }
     }
 
     public class ChangeModelReadDto : ChangeModelCreateDto
@@ -22,6 +24,8 @@ namespace SMDCheckSheet.Dtos
     {
         public int Id { get; set; }
         public string Status { get; set; }
+        public string ExcelFileUrl { get; set; }
+        public string PdfFileUrl { get; set; }
 
         public CheckModel CheckModel { get; set; }
         public ProgramCheck ProgramCheck { get; set; }

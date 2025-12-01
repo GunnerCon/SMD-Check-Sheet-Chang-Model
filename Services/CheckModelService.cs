@@ -30,6 +30,8 @@ namespace SMDCheckSheet.Services
                     PCBver = c.PCBver,
                     WorkOrder = c.WorkOrder,
                     UsedCNcard = c.UsedCNcard,
+                    RevS15  = c.RevS15,
+                    RevMounter = c.RevMounter,
                     Qty = c.Qty ?? 0,
                     FeederCheck = c.FeederCheck,
                     OPAccept = c.OPAccept,
@@ -52,6 +54,8 @@ namespace SMDCheckSheet.Services
                 PCBver = c.PCBver,
                 WorkOrder = c.WorkOrder,
                 UsedCNcard = c.UsedCNcard,
+                RevS15  = c.RevS15,
+                RevMounter = c.RevMounter,
                 Qty = c.Qty ?? 0,
                 FeederCheck = c.FeederCheck,
                 OPAccept = c.OPAccept,
@@ -70,6 +74,8 @@ namespace SMDCheckSheet.Services
                 PCBver = dto.PCBver ?? "",
                 WorkOrder = dto.WorkOrder ?? "",
                 UsedCNcard = dto.UsedCNcard ?? false,
+                RevS15 = dto.RevS15 ?? "",
+                RevMounter = dto.RevMounter ?? "",
                 Qty = dto.Qty ?? 0,
                 FeederCheck = dto.FeederCheck ?? DateTime.Now,
                 OPAccept = dto.OPAccept ?? DateTime.Now,
@@ -92,6 +98,8 @@ namespace SMDCheckSheet.Services
                 PCBver ="",
                 WorkOrder ="",
                 UsedCNcard =false,
+                RevS15 ="",
+                RevMounter ="",
                 Qty = 0,
                 FeederCheck =DateTime.Now,
                 OPAccept =DateTime.Now,
@@ -115,6 +123,8 @@ namespace SMDCheckSheet.Services
             checkModel.PCBver = dto.PCBver ?? checkModel.PCBver;
             checkModel.WorkOrder = dto.WorkOrder ?? checkModel.WorkOrder;
             checkModel.UsedCNcard = dto.UsedCNcard ?? checkModel.UsedCNcard;
+            checkModel.RevS15 = dto.RevS15 ?? checkModel.RevS15;
+            checkModel.RevMounter = dto.RevMounter ?? checkModel.RevMounter;
             checkModel.Qty = dto.Qty ?? checkModel.Qty;
             checkModel.FeederCheck = dto.FeederCheck ?? checkModel.FeederCheck;
             checkModel.OPAccept = dto.OPAccept ?? checkModel.OPAccept;

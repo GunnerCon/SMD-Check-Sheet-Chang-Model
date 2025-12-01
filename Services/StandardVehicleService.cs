@@ -39,6 +39,10 @@ namespace SMDCheckSheet.Services
                     ReFlowRealRail = v.ReFlowRealRail,
                     AOIQ1 = v.AOIQ1,
                     AOICheck = v.AOICheck,
+                    OutputCheck = v.OutputCheck,
+                    ModelValue  = v.ModelValue,
+                    PitchValue = v.PitchValue,
+                    PitchReal = v.PitchReal,
                     NameOP = v.NameOP,
                     NameAOI = v.NameAOI
                 }).ToListAsync();
@@ -68,6 +72,10 @@ namespace SMDCheckSheet.Services
                 ReFlowRealRail = v.ReFlowRealRail,
                 AOIQ1 = v.AOIQ1,
                 AOICheck = v.AOICheck,
+                OutputCheck = v.OutputCheck,
+                ModelValue  = v.ModelValue,
+                PitchValue = v.PitchValue,
+                PitchReal = v.PitchReal,
                 NameOP = v.NameOP,
                 NameAOI = v.NameAOI
             };
@@ -93,6 +101,10 @@ namespace SMDCheckSheet.Services
                 ReFlowRealRail = dto.ReFlowRealRail ?? 0,
                 AOIQ1 = dto.AOIQ1 ?? false,
                 AOICheck = dto.AOICheck ?? "",
+                OutputCheck = dto.OutputCheck ?? false,
+                ModelValue = dto.ModelValue ?? "",
+                PitchValue = dto.PitchValue ?? "",
+                PitchReal = dto.PitchReal ?? "",
                 NameOP = dto.NameOP ?? "",
                 NameAOI = dto.NameAOI ?? ""
             };
@@ -123,6 +135,10 @@ namespace SMDCheckSheet.Services
                 ReFlowRealRail = 0,
                 AOIQ1 = false,
                 AOICheck = "",
+                OutputCheck = false,
+                ModelValue = "",
+                PitchValue = "",
+                PitchReal = "",
                 NameOP = "",
                 NameAOI = ""
             };
@@ -154,6 +170,10 @@ namespace SMDCheckSheet.Services
             sv.ReFlowRealRail = dto.ReFlowRealRail ?? sv.ReFlowRealRail;
             sv.AOIQ1 = dto.AOIQ1 ?? sv.AOIQ1;
             sv.AOICheck = dto.AOICheck ?? sv.AOICheck;
+            sv.OutputCheck = dto.OutputCheck ?? sv.OutputCheck;
+            sv.ModelValue = dto.ModelValue ?? sv.ModelValue;
+            sv.PitchValue = dto.PitchValue ?? sv.PitchValue;
+            sv.PitchReal = dto.PitchReal ?? sv.PitchReal;
             sv.NameOP = dto.NameOP ?? sv.NameOP;
             sv.NameAOI = dto.NameAOI ?? sv.NameAOI;
 
