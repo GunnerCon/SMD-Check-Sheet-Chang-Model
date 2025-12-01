@@ -28,9 +28,9 @@ namespace SMDCheckSheet.Services
                     SPIProgram = p.SPIProgram,
                     MounterProgram = p.MounterProgram,
                     PointMounter = p.PointMounter,
-                    MOAIProgram = p.MOAIProgram,
-                    SOAIProgram = p.SOAIProgram,
-                    PointSOAI = p.PointSOAI,
+                    MAOIProgram = p.MAOIProgram,
+                    SAOIProgram = p.SAOIProgram,
+                    PointSAOI = p.PointSAOI,
                     ReflowProgram = p.ReflowProgram,
                     ReflowSpeed = p.ReflowSpeed
                 }).ToListAsync();
@@ -48,9 +48,9 @@ namespace SMDCheckSheet.Services
                 SPIProgram = p.SPIProgram,
                 MounterProgram = p.MounterProgram,
                 PointMounter = p.PointMounter,
-                MOAIProgram = p.MOAIProgram,
-                SOAIProgram = p.SOAIProgram,
-                PointSOAI = p.PointSOAI,
+                MAOIProgram = p.MAOIProgram,
+                SAOIProgram = p.SAOIProgram,
+                PointSAOI = p.PointSAOI,
                 ReflowProgram = p.ReflowProgram,
                 ReflowSpeed = p.ReflowSpeed
             };
@@ -64,9 +64,9 @@ namespace SMDCheckSheet.Services
                 SPIProgram = dto.SPIProgram ?? "",
                 MounterProgram = dto.MounterProgram ??"",
                 PointMounter = dto.PointMounter ?? 0,
-                MOAIProgram = dto.MOAIProgram ?? "",
-                SOAIProgram = dto.SOAIProgram ?? "",
-                PointSOAI = dto.PointSOAI ?? 0,
+                MAOIProgram = dto.MAOIProgram ?? "",
+                SAOIProgram = dto.SAOIProgram ?? "",
+                PointSAOI = dto.PointSAOI ?? 0,
                 ReflowProgram = dto.ReflowProgram ?? "",
                 ReflowSpeed = dto.ReflowSpeed ?? 0
             };
@@ -85,9 +85,9 @@ namespace SMDCheckSheet.Services
                 SPIProgram ="",
                 MounterProgram ="",
                 PointMounter =0,
-                MOAIProgram ="",
-                SOAIProgram ="",
-                PointSOAI =0,
+                MAOIProgram ="",
+                SAOIProgram ="",
+                PointSAOI =0,
                 ReflowProgram = "",
                 ReflowSpeed =0
             };
@@ -107,9 +107,9 @@ namespace SMDCheckSheet.Services
             programCheck.SPIProgram = dto.SPIProgram ?? programCheck.SPIProgram;
             programCheck.MounterProgram = dto.MounterProgram ?? programCheck.MounterProgram;
             programCheck.PointMounter = dto.PointMounter ?? programCheck.PointMounter;
-            programCheck.MOAIProgram = dto.MOAIProgram ?? programCheck.MOAIProgram;
-            programCheck.SOAIProgram = dto.SOAIProgram ?? programCheck.SOAIProgram;
-            programCheck.PointSOAI = dto.PointSOAI ?? programCheck.PointSOAI;
+            programCheck.MAOIProgram = dto.MAOIProgram ?? programCheck.MAOIProgram;
+            programCheck.SAOIProgram = dto.SAOIProgram ?? programCheck.SAOIProgram;
+            programCheck.PointSAOI = dto.PointSAOI ?? programCheck.PointSAOI;
             programCheck.ReflowProgram = dto.ReflowProgram ?? programCheck.ReflowProgram;
             programCheck.ReflowSpeed = dto.ReflowSpeed ?? programCheck.ReflowSpeed;
 

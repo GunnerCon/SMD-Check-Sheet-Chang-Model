@@ -97,9 +97,9 @@ namespace SMDCheckSheet.Services
                     SPIProgram = c.ProgramCheck.SPIProgram,
                     MounterProgram = c.ProgramCheck.MounterProgram,
                     PointMounter = c.ProgramCheck.PointMounter,
-                    MOAIProgram = c.ProgramCheck.MOAIProgram,
-                    SOAIProgram = c.ProgramCheck.SOAIProgram,
-                    PointSOAI = c.ProgramCheck.PointSOAI,
+                    MAOIProgram = c.ProgramCheck.MAOIProgram,
+                    SAOIProgram = c.ProgramCheck.SAOIProgram,
+                    PointSAOI = c.ProgramCheck.PointSAOI,
                     ReflowProgram = c.ProgramCheck.ReflowProgram,
                     ReflowSpeed = c.ProgramCheck.ReflowSpeed
                 },
