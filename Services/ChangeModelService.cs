@@ -1,4 +1,4 @@
-using SMDCheckSheet.Data;
+﻿using SMDCheckSheet.Data;
 using SMDCheckSheet.Dtos;
 using SMDCheckSheet.Models;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +17,7 @@ namespace SMDCheckSheet.Services
         private readonly StandardVehicleService _standardVehicleService;
         private readonly TimeChangeModelService _timeChangeModelService;
         private readonly PQCCheckService _pqcCheckService;
+        private readonly AzureBlobService _blobService;
 
         public ChangeModelService(
             AppDbContext context,
@@ -25,7 +26,8 @@ namespace SMDCheckSheet.Services
             StandardProductionService standardProductionService,
             StandardVehicleService standardVehicleService,
             TimeChangeModelService timeChangeModelService,
-            PQCCheckService pqcCheckService)
+            PQCCheckService pqcCheckService,
+            AzureBlobService blobService)
         {
             _context = context;
             _checkModelService = checkModelService;
@@ -34,6 +36,7 @@ namespace SMDCheckSheet.Services
             _standardVehicleService = standardVehicleService;
             _timeChangeModelService = timeChangeModelService;
             _pqcCheckService = pqcCheckService;
+            _blobService = blobService;
         }
 
         public async Task<IEnumerable<ChangeModelReadDto>> GetAllAsync()
@@ -246,6 +249,24 @@ namespace SMDCheckSheet.Services
             model.Status = status;
             await _context.SaveChangesAsync();
             return model;
+        }
+
+        public async Task<string> UploadFileAsync(IFormFile file, int changeModelId)
+        {
+            var changeModel = await _context.ChangeModels.FindAsync(changeModelId);
+            if (changeModel == null) throw new Exception("Không tìm thấy ChangeModel.");
+
+            var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+            var stream = file.OpenReadStream();
+            var fileUrl = await _blobService.UploadAsync(fileName, stream);
+
+            if (file.ContentType == "application/pdf")
+                changeModel.PdfFileUrl = fileUrl;
+            else if (file.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+                changeModel.ExcelFileUrl = fileUrl;
+
+            await _context.SaveChangesAsync();
+            return fileUrl;
         }
 
         public async Task<bool> DeleteAsync(int id)

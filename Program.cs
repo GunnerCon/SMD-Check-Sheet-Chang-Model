@@ -4,11 +4,14 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using SMDCheckSheet.Data;
 using SMDCheckSheet.Services;
+using DotNetEnv;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Đăng ký các dịch vụ cần thiết
+Env.Load(); // Tải biến môi trường từ file .env
 
+builder.Configuration.AddEnvironmentVariables(); // Thêm hỗ trợ biến môi trường
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddControllers();
@@ -20,6 +23,8 @@ builder.Services.AddScoped<PQCCheckService>();
 builder.Services.AddScoped<ProgramCheckService>();
 builder.Services.AddScoped<StandardProductionService>();
 builder.Services.AddScoped<StandardVehicleService>();
+builder.Services.AddScoped<AzureBlobService>();
+
 
 
 builder.Services.AddEndpointsApiExplorer(); // Cho Swagger

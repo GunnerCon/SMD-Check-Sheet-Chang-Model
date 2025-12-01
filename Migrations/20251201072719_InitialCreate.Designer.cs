@@ -12,15 +12,15 @@ using SMDCheckSheet.Data;
 namespace SMDCheckSheet.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251128030224_Initial")]
-    partial class Initial
+    [Migration("20251201072719_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -64,13 +64,19 @@ namespace SMDCheckSheet.Migrations
                     b.Property<int>("CheckModelId")
                         .HasColumnType("int");
 
+                    b.Property<string>("ExcelFileUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("PQCCheckId")
                         .HasColumnType("int");
+
+                    b.Property<string>("PdfFileUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ProgramCheckId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StandardProductId")
+                    b.Property<int>("StandardProductionId")
                         .HasColumnType("int");
 
                     b.Property<int>("StandardVehicleId")
@@ -91,7 +97,7 @@ namespace SMDCheckSheet.Migrations
 
                     b.HasIndex("ProgramCheckId");
 
-                    b.HasIndex("StandardProductId");
+                    b.HasIndex("StandardProductionId");
 
                     b.HasIndex("StandardVehicleId");
 
@@ -134,6 +140,12 @@ namespace SMDCheckSheet.Migrations
 
                     b.Property<int?>("Qty")
                         .HasColumnType("int");
+
+                    b.Property<string>("RevMounter")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RevS15")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("UsedCNcard")
                         .HasColumnType("bit");
@@ -196,7 +208,7 @@ namespace SMDCheckSheet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("MOAIProgram")
+                    b.Property<string>("MAOIProgram")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -207,7 +219,7 @@ namespace SMDCheckSheet.Migrations
                     b.Property<int>("PointMounter")
                         .HasColumnType("int");
 
-                    b.Property<int>("PointSOAI")
+                    b.Property<int>("PointSAOI")
                         .HasColumnType("int");
 
                     b.Property<string>("PrinterProgram")
@@ -221,7 +233,7 @@ namespace SMDCheckSheet.Migrations
                     b.Property<int>("ReflowSpeed")
                         .HasColumnType("int");
 
-                    b.Property<string>("SOAIProgram")
+                    b.Property<string>("SAOIProgram")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -288,6 +300,10 @@ namespace SMDCheckSheet.Migrations
                     b.Property<bool>("AOIQ1")
                         .HasColumnType("bit");
 
+                    b.Property<string>("ModelValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("MountQ1")
                         .HasColumnType("bit");
 
@@ -299,6 +315,17 @@ namespace SMDCheckSheet.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NameOP")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("OutputCheck")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("PitchReal")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PitchValue")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -397,9 +424,9 @@ namespace SMDCheckSheet.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SMDCheckSheet.Models.StandardProduction", "StandardProduct")
+                    b.HasOne("SMDCheckSheet.Models.StandardProduction", "StandardProduction")
                         .WithMany()
-                        .HasForeignKey("StandardProductId")
+                        .HasForeignKey("StandardProductionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,7 +448,7 @@ namespace SMDCheckSheet.Migrations
 
                     b.Navigation("ProgramCheck");
 
-                    b.Navigation("StandardProduct");
+                    b.Navigation("StandardProduction");
 
                     b.Navigation("StandardVehicle");
 

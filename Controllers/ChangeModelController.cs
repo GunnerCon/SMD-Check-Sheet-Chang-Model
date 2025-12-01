@@ -66,6 +66,13 @@ namespace SMDCheckSheet.Controllers
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
+        [HttpPost("upload-files")]
+        public async Task<IActionResult> UploadFiles(IFormFile file, int changeModelId)
+        {
+            var fileUrl = await _service.UploadFileAsync(file, changeModelId);
+            return Ok(new { url = fileUrl });
+        }
+
         [HttpDelete("{id}")] 
         public async Task<IActionResult> Delete(int id)
         {

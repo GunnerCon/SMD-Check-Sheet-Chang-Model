@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using SMDCheckSheet.Models;
 
 namespace SMDCheckSheet.Dtos
@@ -33,6 +34,13 @@ namespace SMDCheckSheet.Dtos
         public StandardVehicle StandardVehicle { get; set; }
         public TimeChangeModel TimeChangeModel { get; set; }
         public PQCCheck PQCCheck { get; set; }
+    }
+
+    public class ChangeModelUploadDto
+    {
+        public int Id { get; set; }
+        public IFormFile? PdfFile { get; set; }
+        public IFormFile? ExcelFile { get; set; }
     }
 
     public class ChangeModelStatusUpdateDto

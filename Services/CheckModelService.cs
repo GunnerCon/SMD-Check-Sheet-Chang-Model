@@ -117,19 +117,19 @@ namespace SMDCheckSheet.Services
             var checkModel = await _context.CheckModels.FindAsync(id);
             if (checkModel == null) return null;
 
-            checkModel.LineChange = dto.LineChange ?? checkModel.LineChange;
-            checkModel.Model = dto.Model ?? checkModel.Model;
-            checkModel.FCode = dto.FCode ?? checkModel.FCode;
-            checkModel.PCBver = dto.PCBver ?? checkModel.PCBver;
-            checkModel.WorkOrder = dto.WorkOrder ?? checkModel.WorkOrder;
-            checkModel.UsedCNcard = dto.UsedCNcard ?? checkModel.UsedCNcard;
-            checkModel.RevS15 = dto.RevS15 ?? checkModel.RevS15;
-            checkModel.RevMounter = dto.RevMounter ?? checkModel.RevMounter;
-            checkModel.Qty = dto.Qty ?? checkModel.Qty;
-            checkModel.FeederCheck = dto.FeederCheck ?? checkModel.FeederCheck;
-            checkModel.OPAccept = dto.OPAccept ?? checkModel.OPAccept;
-            checkModel.JIG = dto.JIG ?? checkModel.JIG;
-            checkModel.CodePCB = dto.CodePCB ?? checkModel.CodePCB;
+            checkModel.LineChange = dto.LineChange ?? "";
+            checkModel.Model = dto.Model ?? "";
+            checkModel.FCode = dto.FCode ?? "";
+            checkModel.PCBver = dto.PCBver ?? "";
+            checkModel.WorkOrder = dto.WorkOrder ?? "";
+            checkModel.UsedCNcard = dto.UsedCNcard ?? false;
+            checkModel.RevS15 = dto.RevS15 ?? "";
+            checkModel.RevMounter = dto.RevMounter ?? "";
+            checkModel.Qty = dto.Qty ?? 0;
+            checkModel.FeederCheck = dto.FeederCheck ?? DateTime.Now;
+            checkModel.OPAccept = dto.OPAccept ?? DateTime.Now;
+            checkModel.JIG = dto.JIG ?? false;
+            checkModel.CodePCB = dto.CodePCB ?? "";
 
             await _context.SaveChangesAsync();
             return checkModel;

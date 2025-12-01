@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SMDCheckSheet.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateAllOfTableInVer1 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -28,22 +28,28 @@ namespace SMDCheckSheet.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ChangeModels",
+                name: "CheckModels",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CheckModelId = table.Column<int>(type: "int", nullable: false),
-                    ProgramCheckId = table.Column<int>(type: "int", nullable: false),
-                    StandardProductId = table.Column<int>(type: "int", nullable: false),
-                    StandardVehicleId = table.Column<int>(type: "int", nullable: false),
-                    TimeChangeModelId = table.Column<int>(type: "int", nullable: false),
-                    PQCCheckId = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    LineChange = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Model = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PCBver = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    WorkOrder = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UsedCNcard = table.Column<bool>(type: "bit", nullable: false),
+                    RevS15 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RevMounter = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Qty = table.Column<int>(type: "int", nullable: true),
+                    FeederCheck = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    OPAccept = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    JIG = table.Column<bool>(type: "bit", nullable: false),
+                    CodePCB = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ChangeModels", x => x.Id);
+                    table.PrimaryKey("PK_CheckModels", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -76,9 +82,9 @@ namespace SMDCheckSheet.Migrations
                     SPIProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MounterProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PointMounter = table.Column<int>(type: "int", nullable: false),
-                    MOAIProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SOAIProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PointSOAI = table.Column<int>(type: "int", nullable: false),
+                    MAOIProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SAOIProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PointSAOI = table.Column<int>(type: "int", nullable: false),
                     ReflowProgram = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ReflowSpeed = table.Column<int>(type: "int", nullable: false)
                 },
@@ -93,7 +99,7 @@ namespace SMDCheckSheet.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    NumMASk = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NumMASK = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumMES = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NumScanPrinter = table.Column<int>(type: "int", nullable: false),
                     NumScanSignMES = table.Column<int>(type: "int", nullable: false),
@@ -129,6 +135,10 @@ namespace SMDCheckSheet.Migrations
                     ReFlowRealRail = table.Column<int>(type: "int", nullable: false),
                     AOIQ1 = table.Column<bool>(type: "bit", nullable: false),
                     AOICheck = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    OutputCheck = table.Column<bool>(type: "bit", nullable: false),
+                    ModelValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PitchValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PitchReal = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NameOP = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     NameAOI = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -143,17 +153,104 @@ namespace SMDCheckSheet.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    QC = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Result = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    QC = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Result = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    CountTime = table.Column<int>(type: "int", nullable: false),
-                    History = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    CountTime = table.Column<int>(type: "int", nullable: true),
+                    History = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TimeChangeModels", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "ChangeModels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CheckModelId = table.Column<int>(type: "int", nullable: false),
+                    ProgramCheckId = table.Column<int>(type: "int", nullable: false),
+                    StandardProductionId = table.Column<int>(type: "int", nullable: false),
+                    StandardVehicleId = table.Column<int>(type: "int", nullable: false),
+                    TimeChangeModelId = table.Column<int>(type: "int", nullable: false),
+                    PQCCheckId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExcelFileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PdfFileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChangeModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_CheckModels_CheckModelId",
+                        column: x => x.CheckModelId,
+                        principalTable: "CheckModels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_PQCChecks_PQCCheckId",
+                        column: x => x.PQCCheckId,
+                        principalTable: "PQCChecks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_ProgramChecks_ProgramCheckId",
+                        column: x => x.ProgramCheckId,
+                        principalTable: "ProgramChecks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_StandardProductions_StandardProductionId",
+                        column: x => x.StandardProductionId,
+                        principalTable: "StandardProductions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_StandardVehicles_StandardVehicleId",
+                        column: x => x.StandardVehicleId,
+                        principalTable: "StandardVehicles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_TimeChangeModels_TimeChangeModelId",
+                        column: x => x.TimeChangeModelId,
+                        principalTable: "TimeChangeModels",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_CheckModelId",
+                table: "ChangeModels",
+                column: "CheckModelId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_PQCCheckId",
+                table: "ChangeModels",
+                column: "PQCCheckId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_ProgramCheckId",
+                table: "ChangeModels",
+                column: "ProgramCheckId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_StandardProductionId",
+                table: "ChangeModels",
+                column: "StandardProductionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_StandardVehicleId",
+                table: "ChangeModels",
+                column: "StandardVehicleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_TimeChangeModelId",
+                table: "ChangeModels",
+                column: "TimeChangeModelId");
         }
 
         /// <inheritdoc />
@@ -164,6 +261,9 @@ namespace SMDCheckSheet.Migrations
 
             migrationBuilder.DropTable(
                 name: "ChangeModels");
+
+            migrationBuilder.DropTable(
+                name: "CheckModels");
 
             migrationBuilder.DropTable(
                 name: "PQCChecks");
