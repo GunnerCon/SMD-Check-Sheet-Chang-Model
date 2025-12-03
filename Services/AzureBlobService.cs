@@ -6,8 +6,8 @@ public class AzureBlobService
 
     public AzureBlobService(IConfiguration config)
     {
-        var connectionString = Environment.GetEnvironmentVariable("AzureBlobConnectionString");
-        var containerName = Environment.GetEnvironmentVariable("AzureBlobContainerName");
+        var connectionString = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONNECTION_STRING");
+        var containerName = Environment.GetEnvironmentVariable("AZURE_STORAGE_CONTAINER");
         _container = new BlobContainerClient(connectionString, containerName);
     }
 
