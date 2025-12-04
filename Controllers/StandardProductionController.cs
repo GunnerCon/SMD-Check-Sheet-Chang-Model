@@ -1,12 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SMDCheckSheet.Dtos;
-using SMDCheckSheet.Services;
 using SMDCheckSheet.Models;
+using SMDCheckSheet.Services;
 
 namespace SMDCheckSheet.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StandardProductionController : ControllerBase

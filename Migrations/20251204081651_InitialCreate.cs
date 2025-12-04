@@ -179,11 +179,19 @@ namespace SMDCheckSheet.Migrations
                     PQCCheckId = table.Column<int>(type: "int", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ExcelFileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PdfFileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    PdfFileUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AccountId = table.Column<int>(type: "int", nullable: false),
+                    CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChangeModels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChangeModels_Accounts_AccountId",
+                        column: x => x.AccountId,
+                        principalTable: "Accounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ChangeModels_CheckModels_CheckModelId",
                         column: x => x.CheckModelId,
@@ -223,6 +231,11 @@ namespace SMDCheckSheet.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChangeModels_AccountId",
+                table: "ChangeModels",
+                column: "AccountId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChangeModels_CheckModelId",
                 table: "ChangeModels",
                 column: "CheckModelId");
@@ -257,10 +270,10 @@ namespace SMDCheckSheet.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "ChangeModels");
 
             migrationBuilder.DropTable(
-                name: "ChangeModels");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "CheckModels");

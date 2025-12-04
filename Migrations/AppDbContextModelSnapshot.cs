@@ -17,7 +17,7 @@ namespace SMDCheckSheet.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -58,8 +58,14 @@ namespace SMDCheckSheet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccountId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CheckModelId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ExcelFileUrl")
                         .HasColumnType("nvarchar(max)");
@@ -87,6 +93,8 @@ namespace SMDCheckSheet.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AccountId");
 
                     b.HasIndex("CheckModelId");
 
@@ -403,6 +411,12 @@ namespace SMDCheckSheet.Migrations
 
             modelBuilder.Entity("SMDCheckSheet.Models.ChangeModel", b =>
                 {
+                    b.HasOne("SMDCheckSheet.Models.Account", "Account")
+                        .WithMany()
+                        .HasForeignKey("AccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("SMDCheckSheet.Models.CheckModel", "CheckModel")
                         .WithMany()
                         .HasForeignKey("CheckModelId")
@@ -438,6 +452,8 @@ namespace SMDCheckSheet.Migrations
                         .HasForeignKey("TimeChangeModelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Account");
 
                     b.Navigation("CheckModel");
 

@@ -17,6 +17,7 @@ namespace SMDCheckSheet.Services
         private readonly StandardVehicleService _standardVehicleService;
         private readonly TimeChangeModelService _timeChangeModelService;
         private readonly PQCCheckService _pqcCheckService;
+        private readonly AccountService _accountService;
         private readonly AzureBlobService _blobService;
 
         public ChangeModelService(
@@ -27,6 +28,7 @@ namespace SMDCheckSheet.Services
             StandardVehicleService standardVehicleService,
             TimeChangeModelService timeChangeModelService,
             PQCCheckService pqcCheckService,
+            AccountService accountService,
             AzureBlobService blobService)
         {
             _context = context;
@@ -36,6 +38,7 @@ namespace SMDCheckSheet.Services
             _standardVehicleService = standardVehicleService;
             _timeChangeModelService = timeChangeModelService;
             _pqcCheckService = pqcCheckService;
+            _accountService = accountService;
             _blobService = blobService;
         }
 
@@ -53,7 +56,9 @@ namespace SMDCheckSheet.Services
                     PQCCheckId = c.PQCCheckId,
                     ExcelFileUrl  = c.ExcelFileUrl,
                     PdfFileUrl  = c.PdfFileUrl,
-                    Status = c.Status
+                    Status = c.Status,
+                    AccountId = c.AccountId,
+                    CreateAt = c.CreateAt
                 }).ToListAsync();
         }
 
@@ -66,6 +71,7 @@ namespace SMDCheckSheet.Services
                 .Include(x => x.StandardVehicle)
                 .Include(x => x.TimeChangeModel)
                 .Include(x => x.PQCCheck)
+                .Include(x => x.Account)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (c == null) return null;
@@ -76,6 +82,14 @@ namespace SMDCheckSheet.Services
                 Status = c.Status,
                 ExcelFileUrl = c.ExcelFileUrl,
                 PdfFileUrl = c.PdfFileUrl,
+                CreateAt = c.CreateAt,
+                Account = new Account
+                {
+                    Id = c.Account.Id,
+                    Username = c.Account.Username,
+                    Role = c.Account.Role,
+                    IsActive = c.Account.IsActive
+                },
                 CheckModel = new CheckModel
                 {
                     Id = c.CheckModel.Id,
@@ -187,6 +201,8 @@ namespace SMDCheckSheet.Services
                 PQCCheckId = c.PQCCheckId,
                 ExcelFileUrl  = c.ExcelFileUrl,
                 PdfFileUrl  = c.PdfFileUrl,
+                CreateAt = c.CreateAt,
+                AccountId = c.AccountId,
                 Status = c.Status
                 }
             };
@@ -208,11 +224,13 @@ namespace SMDCheckSheet.Services
                 PQCCheckId = c.PQCCheckId,
                 ExcelFileUrl  = c.ExcelFileUrl,
                 PdfFileUrl  = c.PdfFileUrl,
+                CreateAt = c.CreateAt,
+                AccountId = c.AccountId,
                 Status = c.Status
             };
         }
 
-        public async Task<ChangeModelReadDto> CreateAsync(ChangeModelCreateDto dto)
+        public async Task<ChangeModelReadDto> CreateAsync(ChangeModelCreateDto dto, int accountId)
         {
             var checkModel = await _checkModelService.CreateEmptyAsync();
             var programCheck = await _programCheckService.CreateEmptyAsync();
@@ -232,7 +250,9 @@ namespace SMDCheckSheet.Services
                 PQCCheckId = pqcCheck.Id,
                 ExcelFileUrl = dto.ExcelFileUrl ?? "",
                 PdfFileUrl = dto.PdfFileUrl ?? "",
-                Status = dto.Status
+                Status = dto.Status,
+                CreateAt = DateTime.Now,
+                AccountId = accountId
             };
 
             _context.ChangeModels.Add(c);

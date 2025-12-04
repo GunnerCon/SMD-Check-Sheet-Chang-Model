@@ -1,4 +1,4 @@
-using SMDCheckSheet.Data;
+﻿using SMDCheckSheet.Data;
 using SMDCheckSheet.Dtos;
 using SMDCheckSheet.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +11,12 @@ namespace SMDCheckSheet.Services
     public class AccountService
     {
         private readonly AppDbContext _context;
+        private readonly JwtTokenService _jwt;
 
-        public AccountService(AppDbContext context)
+        public AccountService(AppDbContext context, JwtTokenService jwt)
         {
             _context = context;
+            _jwt = jwt;
         }
 
         public async Task<IEnumerable<AccountReadDto>> GetAllAsync()
@@ -93,5 +95,61 @@ namespace SMDCheckSheet.Services
             // TODO: Replace with real hashing (e.g., BCrypt)
             return Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(password));
         }
+
+        public bool VerifyPassword(string input, string hash)
+        {
+            return BCrypt.Net.BCrypt.Verify(input, hash);
+        }
+  
+        public async Task<AuthResponseDto?> LoginAsync(LoginRequestDto dto)
+        {
+            var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Username == dto.Username);
+            if(account == null || !account.IsActive) return null;
+
+            if(!VerifyPassword(dto.Password, account.Password)) return null;
+
+            var (token, exp) = _jwt.GenerateToken(account.Id, account.Username, account.Role);
+
+            return new AuthResponseDto
+            {
+                Id = account.Id,
+                Username = account.Username,
+                Role = account.Role,
+                Token = token,
+                ExpiresAt = exp
+            };
+        }
+
+        public async Task<AuthResponseDto?> RegisterAsync(RegisterRequestDto dto)
+        {
+            // kiểm tra trùng username
+            if (await _context.Accounts.AnyAsync(a => a.Username == dto.Username))
+                return null;
+
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(dto.Password);
+
+            var account = new Account
+            {
+                Username = dto.Username,
+                Password = hashedPassword,
+                Role = dto.Role,
+                IsActive = true
+            };
+
+            _context.Accounts.Add(account);
+            await _context.SaveChangesAsync();
+
+            var (token, exp) = _jwt.GenerateToken(account.Id, account.Username, account.Role);
+
+            return new AuthResponseDto
+            {
+                Id = account.Id,
+                Username = account.Username,
+                Role = account.Role,
+                Token = token,
+                ExpiresAt = exp
+            };
+        }
+
     }
 }

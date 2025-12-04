@@ -17,6 +17,8 @@ namespace SMDCheckSheet.Models
         public string Status { get; set; } // {PQCDone, ENGDone, SupervisorDone, ManagerDone, ManagerKoreaDone}
         public string? ExcelFileUrl { get; set; } // Lưu trữ đường dẫn đến file Excel
         public string? PdfFileUrl { get; set; } // Lưu trữ đường dẫn đến file PDF
+        public int AccountId { get; set; } // Người tạo ChangeModel
+        public DateTime CreateAt { get; set; }
 
 
         public CheckModel CheckModel { get; set; }
@@ -25,5 +27,6 @@ namespace SMDCheckSheet.Models
         public StandardVehicle StandardVehicle { get; set; }
         public TimeChangeModel TimeChangeModel { get; set; }
         public PQCCheck PQCCheck { get; set; }
+        public Account Account { get; set; }
     }
 }

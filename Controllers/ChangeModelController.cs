@@ -1,29 +1,42 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SMDCheckSheet.Dtos;
 using SMDCheckSheet.Services;
 using SMDCheckSheet.Models;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace SMDCheckSheet.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class ChangeModelController : ControllerBase
     {
         private readonly ChangeModelService _service;
+        private readonly AccountService _accountService;
 
-        public ChangeModelController(ChangeModelService service)
+        public ChangeModelController(ChangeModelService service, AccountService accountService)
         {
             _service = service;
+            _accountService = accountService;
         }
 
+        [Authorize(Roles = "ENG")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChangeModelReadDto>>> GetAll()
         {
-            var result = await _service.GetAllAsync();
-            return Ok(result);
+            try
+            {
+                var result = await _service.GetAllAsync();
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi GetAll: " + ex.Message);
+                return StatusCode(500, "Lỗi server khi lấy danh sách.");
+            }
         }
 
         [HttpGet("object/{id}")]
@@ -62,7 +75,12 @@ namespace SMDCheckSheet.Controllers
         [HttpPost()]
         public async Task<ActionResult<ChangeModelReadDto>> Create(ChangeModelCreateDto dto)
         {
-            var result = await _service.CreateAsync(dto);
+            var accountId = int.Parse(User.FindFirst("uid")?.Value);
+
+            var account = await _accountService.GetByIdAsync(accountId);
+            if (account == null) return BadRequest("Tài khoản không tồn tại");
+
+            var result = await _service.CreateAsync(dto, accountId);
             return CreatedAtAction(nameof(GetById), new { id = result.Id }, result);
         }
 
