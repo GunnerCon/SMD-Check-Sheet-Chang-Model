@@ -52,5 +52,10 @@ namespace SMDCheckSheet.Dtos
         public string Status { get; set; } = "Pending";
     }
 
+    public class ChangeModelFilterDto
+    {
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
+    }
 
 }

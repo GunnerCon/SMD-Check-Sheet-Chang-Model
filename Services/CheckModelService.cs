@@ -144,5 +144,13 @@ namespace SMDCheckSheet.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<CheckModel>> GetByWorkOrderAsync(string workOrder)
+        {
+            return await _context.CheckModels
+                .Where(cm => cm.WorkOrder == workOrder)
+                .ToListAsync();
+        }
+
     }
 }

@@ -59,5 +59,13 @@ namespace SMDCheckSheet.Controllers
             if (!success) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("workorder/{workOrder}")]
+        public async Task<ActionResult<IEnumerable<CheckModel>>> GetByWorkOrder(string workOrder)
+        {
+            var result = await _service.GetByWorkOrderAsync(workOrder);
+            return Ok(result);
+        }
+
     }
 }

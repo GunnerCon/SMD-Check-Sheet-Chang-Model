@@ -27,7 +27,9 @@ namespace SMDCheckSheet.Services
                     Id = a.Id,
                     Username = a.Username,
                     Role = a.Role,
-                    IsActive = a.IsActive
+                    IsActive = a.IsActive,
+                    FullName = a.FullName ?? "",
+                    PhoneNumber = a.PhoneNumber ?? ""
                 }).ToListAsync();
         }
 
@@ -41,7 +43,9 @@ namespace SMDCheckSheet.Services
                 Id = acc.Id,
                 Username = acc.Username,
                 Role = acc.Role,
-                IsActive = acc.IsActive
+                IsActive = acc.IsActive,
+                FullName = acc.FullName ?? "",
+                PhoneNumber = acc.PhoneNumber ?? ""
             };
         }
 
@@ -52,7 +56,9 @@ namespace SMDCheckSheet.Services
                 Username = dto.Username,
                 Password = HashPassword(dto.Password),
                 Role = dto.Role,
-                IsActive = dto.IsActive
+                IsActive = dto.IsActive,
+                FullName = dto.FullName ?? "",
+                PhoneNumber = dto.PhoneNumber ?? ""
             };
 
             _context.Accounts.Add(acc);
@@ -63,7 +69,9 @@ namespace SMDCheckSheet.Services
                 Id = acc.Id,
                 Username = acc.Username,
                 Role = acc.Role,
-                IsActive = acc.IsActive
+                IsActive = acc.IsActive,
+                FullName = acc.FullName ?? "",
+                PhoneNumber = acc.PhoneNumber ?? ""
             };
         }
 
@@ -75,6 +83,8 @@ namespace SMDCheckSheet.Services
             acc.Password = HashPassword(dto.Password);
             acc.Role = dto.Role;
             acc.IsActive = dto.IsActive;
+            acc.FullName = dto.FullName ?? "";
+            acc.PhoneNumber = dto.PhoneNumber ?? "";
 
             await _context.SaveChangesAsync();
             return true;
@@ -133,7 +143,9 @@ namespace SMDCheckSheet.Services
                 Username = dto.Username,
                 Password = hashedPassword,
                 Role = dto.Role,
-                IsActive = true
+                IsActive = true,
+                FullName = dto.FullName ?? "",
+                PhoneNumber = dto.PhoneNumber ?? ""
             };
 
             _context.Accounts.Add(account);
@@ -149,6 +161,35 @@ namespace SMDCheckSheet.Services
                 Token = token,
                 ExpiresAt = exp
             };
+        }
+
+        //Change password by admin
+        public async Task<bool> ChangePasswordByAdminAsync(int accountId, string newPassword)
+        {
+            var account = await _context.Accounts.FindAsync(accountId);
+            if (account == null) return false;
+
+            // Hash mật khẩu mới
+            account.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
+        //Change password by user
+        public async Task<bool> ChangePasswordAsync(int accountId,ChangePasswordDto dto)
+        {
+            var account = await _context.Accounts.FindAsync(accountId);
+            if(account == null) return false;
+
+            // Kiểm tra mật khẩu hiện tại
+            var isMatch = BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, account.Password);
+            if(!isMatch) return false;
+
+            // Cập nhật mật khẩu mới
+            account.Password = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
     }

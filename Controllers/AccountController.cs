@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@ namespace SMDCheckSheet.Controllers
             _service = service;
         }
 
-    //    [Authorize(Roles = "Admin")]
+        //    [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountReadDto>>> GetAll()
         {
@@ -39,16 +39,16 @@ namespace SMDCheckSheet.Controllers
         public async Task<IActionResult> Login(LoginRequestDto dto)
         {
             var result = await _service.LoginAsync(dto);
-            if(result == null) return Unauthorized("Invalid username or password.");
+            if (result == null) return Unauthorized("Invalid username or password.");
             return Ok(result);
         }
 
-  //      [Authorize(Roles = "Admin")]
+        //      [Authorize(Roles = "Admin")]
         [HttpPost("register")]
         public async Task<ActionResult<AccountReadDto>> Register(RegisterRequestDto dto)
         {
             var result = await _service.RegisterAsync(dto);
-            if(result == null) return BadRequest("Registration failed.");
+            if (result == null) return BadRequest("Registration failed.");
             return Ok(result);
         }
 
@@ -75,6 +75,26 @@ namespace SMDCheckSheet.Controllers
             var success = await _service.DeleteAsync(id);
             if (!success) return NotFound();
             return NoContent();
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("change-password-by-admin")]
+        public async Task<IActionResult> ChangePasswordByAdmin(ChangePasswordByAdminDto dto)
+        {
+            var success = await _service.ChangePasswordByAdminAsync(dto.AccountId, dto.NewPassword);
+            if (!success) return NotFound();
+            return NoContent();
+        }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ChangePassword(ChangePasswordDto dto)
+        {
+            var accountId = int.Parse(User.FindFirst("uid")?.Value);
+
+            var success = await _service.ChangePasswordAsync(accountId, dto);
+            if(!success) return BadRequest("Mật khẩu hiện tại không đúng.");
+
+            return Ok(new { Message = "Đổi mật khẩu thành công" });
         }
     }
 }

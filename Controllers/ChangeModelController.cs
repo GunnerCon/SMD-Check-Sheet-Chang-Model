@@ -23,7 +23,6 @@ namespace SMDCheckSheet.Controllers
             _accountService = accountService;
         }
 
-        [Authorize(Roles = "ENG")]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ChangeModelReadDto>>> GetAll()
         {
@@ -72,6 +71,7 @@ namespace SMDCheckSheet.Controllers
             return Ok(result);
         }
 
+        [Authorize(Roles = "ENG")]
         [HttpPost()]
         public async Task<ActionResult<ChangeModelReadDto>> Create(ChangeModelCreateDto dto)
         {
@@ -98,5 +98,20 @@ namespace SMDCheckSheet.Controllers
             if (!success) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("filter")]
+        public async Task<ActionResult<IEnumerable<ChangeModelReadDto>>> Filter([FromQuery]ChangeModelFilterDto filter)
+        {
+            var result = await _service.FilterByDateAsync(filter.FromDate, filter.ToDate);
+            return Ok(result);
+        }
+
+        [HttpGet("workorder/{workOrder}")]
+        public async Task<ActionResult<IEnumerable<ChangeModelReadDto>>> GetByWorkOrder(string workOrder)
+        {
+            var result = await _service.GetByWorkOrderAsync(workOrder);
+            return Ok(result);
+        }
+
     }
 }

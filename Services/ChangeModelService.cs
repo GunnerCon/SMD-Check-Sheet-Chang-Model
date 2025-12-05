@@ -298,5 +298,50 @@ namespace SMDCheckSheet.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<ChangeModelReadDto>> FilterByDateAsync(DateTime fromDate, DateTime toDate)
+        {
+            var query = _context.ChangeModels
+                .Where(cm => cm.CreateAt >= fromDate && cm.CreateAt <= toDate);
+
+            return await query.Select(cm => new ChangeModelReadDto
+            {
+                Id = cm.Id,
+                CheckModelId = cm.CheckModelId,
+                ProgramCheckId = cm.ProgramCheckId,
+                StandardProductionId = cm.StandardProductionId,
+                StandardVehicleId = cm.StandardVehicleId,
+                TimeChangeModelId = cm.TimeChangeModelId,
+                PQCCheckId = cm.PQCCheckId,
+                Status = cm.Status,
+                ExcelFileUrl = cm.ExcelFileUrl,
+                PdfFileUrl = cm.PdfFileUrl,
+                AccountId = cm.AccountId,
+                CreateAt = cm.CreateAt
+            }).ToListAsync();
+        }
+
+        public async Task<IEnumerable<ChangeModelReadDto>> GetByWorkOrderAsync(string workOrder)
+        {
+            var query = _context.ChangeModels
+                .Include(cm => cm.CheckModel) // load CheckModel để truy cập WorkOrder
+                .Where(cm => cm.CheckModel.WorkOrder == workOrder);
+
+            return await query.Select(cm => new ChangeModelReadDto
+            {
+                Id = cm.Id,
+                CheckModelId = cm.CheckModelId,
+                ProgramCheckId = cm.ProgramCheckId,
+                StandardProductionId = cm.StandardProductionId,
+                StandardVehicleId = cm.StandardVehicleId,
+                TimeChangeModelId = cm.TimeChangeModelId,
+                PQCCheckId = cm.PQCCheckId,
+                Status = cm.Status,
+                ExcelFileUrl = cm.ExcelFileUrl,
+                PdfFileUrl = cm.PdfFileUrl,
+                AccountId = cm.AccountId,
+                CreateAt = cm.CreateAt
+            }).ToListAsync();
+        }
     }
 }
